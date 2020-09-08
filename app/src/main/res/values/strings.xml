@@ -4,4 +4,6 @@
     <string name="skills_lead_tab">Skill IQ Leaders</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gads_logo_desc">GADS LOGO</string>
+    <string name="btn_submit_text">Submit</string>
 </resources>

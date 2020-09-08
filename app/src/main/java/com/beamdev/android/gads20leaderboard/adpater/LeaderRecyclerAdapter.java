@@ -47,6 +47,7 @@ public class LeaderRecyclerAdapter extends RecyclerView.Adapter<LeaderRecyclerAd
 
         public ViewHolder(@NonNull ItemLeaderLayoutBinding binding) {
             super(binding.getRoot());
+            mBinding = binding;
         }
     }
 }

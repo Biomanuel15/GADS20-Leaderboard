@@ -1,4 +1,4 @@
-package com.beamdev.android.gads20leaderboard.services;
+package com.beamdev.android.gads20leaderboard.services.leader;
 
 import com.beamdev.android.gads20leaderboard.datamodel.Leader;
 

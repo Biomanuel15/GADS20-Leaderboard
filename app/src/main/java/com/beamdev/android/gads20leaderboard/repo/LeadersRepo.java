@@ -4,11 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.beamdev.android.gads20leaderboard.datamodel.Leader;
-import com.beamdev.android.gads20leaderboard.services.LeaderService;
-import com.beamdev.android.gads20leaderboard.services.ServiceBuilder;
+import com.beamdev.android.gads20leaderboard.services.leader.LeaderService;
+import com.beamdev.android.gads20leaderboard.services.leader.LeaderServiceBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,12 +22,12 @@ import retrofit2.Response;
 public class LeadersRepo {
 
     Context mContext;
-    List<Leader> mLeaderhList;
-    List<Leader> mLeadersList;
+    MutableLiveData<List<Leader>> mLeaderhList;
+    MutableLiveData<List<Leader>> mLeadersList;
 
     public LeadersRepo(@Nullable Application application) {
         mContext = application;
-        LeaderService leaderService = ServiceBuilder.buildService(LeaderService.class);
+        LeaderService leaderService = LeaderServiceBuilder.buildService(LeaderService.class);
 
         getLeaderhs(leaderService);
 
@@ -33,14 +35,16 @@ public class LeadersRepo {
     }
 
     private void getLeaderhs(LeaderService leaderService) {
+        mLeaderhList = new MutableLiveData<>();
         Call<List<Leader>> request = leaderService.getLeaderh();
 
         request.enqueue(new Callback<List<Leader>>() {
             @Override
-            public void onResponse(Call<List<Leader>> request, Response<List<Leader>> response) {
+            public void onResponse(@NonNull Call<List<Leader>> request, @NonNull Response<List<Leader>> response) {
                 if(response.isSuccessful()){
                     //recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(response.body()));
-                    mLeaderhList = response.body();
+                    List<Leader> leaderhList = response.body();
+                    mLeaderhList.setValue(leaderhList);
                 } else if(response.code() == 401) {
                     if (mContext != null) Toast.makeText(mContext, "Your session has expired", Toast.LENGTH_LONG).show();
                 } else {
@@ -49,7 +53,7 @@ public class LeadersRepo {
             }
 
             @Override
-            public void onFailure(Call<List<Leader>> request, Throwable t) {
+            public void onFailure(@NonNull Call<List<Leader>> request, @NonNull Throwable t) {
                 if (t instanceof IOException){
                     if (mContext != null) Toast.makeText(mContext, "A connection error occured", Toast.LENGTH_LONG).show();
                 } else {
@@ -61,13 +65,15 @@ public class LeadersRepo {
 
     private void getLeaders(LeaderService leaderService) {
         Call<List<Leader>> request = leaderService.getLeaders();
+        mLeadersList = new MutableLiveData<>();
 
         request.enqueue(new Callback<List<Leader>>() {
             @Override
-            public void onResponse(Call<List<Leader>> request, Response<List<Leader>> response) {
+            public void onResponse(@NonNull Call<List<Leader>> request, @NonNull Response<List<Leader>> response) {
                 if(response.isSuccessful()){
                     //recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(response.body()));
-                    mLeadersList = response.body();
+                    List<Leader> leaderhList = response.body();
+                    mLeadersList.setValue(leaderhList);
                 } else if(response.code() == 401) {
                     if (mContext != null) Toast.makeText(mContext, "Your session has expired", Toast.LENGTH_LONG).show();
                 } else {
@@ -76,7 +82,7 @@ public class LeadersRepo {
             }
 
             @Override
-            public void onFailure(Call<List<Leader>> request, Throwable t) {
+            public void onFailure(@NonNull Call<List<Leader>> request, @NonNull Throwable t) {
                 if (t instanceof IOException){
                     if (mContext != null) Toast.makeText(mContext, "A connection error occured", Toast.LENGTH_LONG).show();
                 } else {
@@ -86,11 +92,11 @@ public class LeadersRepo {
         });
     }
 
-    public List<Leader> getLeaderhList() {
+    public MutableLiveData<List<Leader>> getLeaderhList() {
         return mLeaderhList;
     }
 
-    public List<Leader> getLeadersList() {
+    public MutableLiveData<List<Leader>> getLeadersList() {
         return mLeadersList;
     }
 }

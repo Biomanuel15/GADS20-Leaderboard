@@ -1,14 +1,13 @@
-package com.beamdev.android.gads20leaderboard.services;
+package com.beamdev.android.gads20leaderboard.services.form;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ServiceBuilder {
+public class FormServiceBuilder {
 
-    private static final String URL = "https://gadsapi.herokuapp.com/api/";
-    private static final String FORM_URL = "https://docs.google.com/forms/d/e/";
+    private static final String URL = "https://docs.google.com/forms/d/e/";
 
     // Create logger
     private static HttpLoggingInterceptor logger =
@@ -27,4 +26,5 @@ public class ServiceBuilder {
     public static <S> S buildService(Class<S> serviceType) {
         return retrofit.create(serviceType);
     }
+
 }

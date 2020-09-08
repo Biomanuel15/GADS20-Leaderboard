@@ -23,14 +23,15 @@ public class LeadersListViewModel extends ViewModel {
     private LiveData<List<Leader>> mLeadersList = Transformations.map(mIndex, new Function<Integer, List<Leader>>() {
         @Override
         public List<Leader> apply(Integer input) {
-            switch (input){
-                case 1:
-                    return mLeadersRepo.getLeaderhList();
-                case 2:
-                    return mLeadersRepo.getLeadersList();
-                default:
-                    return mLeadersRepo.getLeaderhList();
-            }
+//            switch (input){
+//                case 1:
+//                    return mLeadersRepo.getLeaderhList();
+//                case 2:
+//                    return mLeadersRepo.getLeadersList();
+//                default:
+//                    return mLeadersRepo.getLeaderhList();
+            return null;
+//            }
         }
     });
 
@@ -39,6 +40,15 @@ public class LeadersListViewModel extends ViewModel {
     }
 
     public LiveData<List<Leader>> getLeadersList() {
-        return mLeadersList;
+        if (mIndex.getValue() != null)
+        switch (mIndex.getValue()){
+            case 1:
+                return mLeadersRepo.getLeaderhList();
+            case 2:
+                return mLeadersRepo.getLeadersList();
+            default:
+                return mLeadersRepo.getLeaderhList();
+        }
+        return null;
     }
 }
