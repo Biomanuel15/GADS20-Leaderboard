@@ -19,7 +19,7 @@ public class SubmitFragmentViewModel extends ViewModel {
     public String firstName = "";
     public String lastName = "";
     public String emailAddress = "";
-    public String githubLink = "https://github.com/Biomanuel15/GADS20-Leaderboard.git";
+    public String githubLink = "";
     public ResponseListener mResponseListener;
 
     public SubmitFragmentViewModel() {
